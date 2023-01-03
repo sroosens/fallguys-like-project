@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     private GameObject playerModel;
-    private PlayerInput playerInput;
+
+    [HideInInspector]
+    public PlayerInput playerInput;
 
 
     private void Awake()
@@ -68,5 +70,11 @@ public class Player : MonoBehaviour
             playerModel.SetActive(true);
             playerInput.ActivateInput();
         }        
+    }
+
+    public void Finish()
+    {
+        playerModel.SetActive(false);
+        playerInput.DeactivateInput();
     }
 }

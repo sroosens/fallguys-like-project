@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class MenuManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class MenuManager : MonoBehaviour
     {
         mainPanel.SetActive(false);
         joinPanel.SetActive(true);
+        VerifyDevice();
         GAMEMANAGER.Instance.OpenJoinSession();
     }
 
@@ -57,5 +59,23 @@ public class MenuManager : MonoBehaviour
     public void LaunchParty()
     {
         GAMEMANAGER.Instance.StartParty();
+    }
+
+    private void VerifyDevice()
+    {
+        int pCount = GAMEMANAGER.Instance.inputManager.playerCount;
+        PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+
+        for (int i = 0; i < pCount; i++) 
+        {
+            foreach (PlayerInput playerInput in playerInputs)
+            {
+                if (playerInput.playerIndex == i)
+                {
+                    ChangePlayerState(playerInput.playerIndex, true);
+                    break;
+                }
+            }
+        }
     }
 }

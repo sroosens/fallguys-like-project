@@ -14,6 +14,7 @@ public class GAMEMANAGER : MonoBehaviour
     public GameState gameState = GameState.Menu;
 
     public PlayerInputManager inputManager;
+    public ScoreManager scoreManager;
     public bool LoadAtMenu = true;
 
     private int playerInGame = 0;
@@ -67,15 +68,32 @@ public class GAMEMANAGER : MonoBehaviour
         playerNumber = inputManager.playerCount;
     }
 
-    public void ScoreSequence()
+    public IEnumerator ScoreSequence()
     {
         gameState = GameState.Score;
+        int i = 0;
+        foreach (float score in scoreArray)
+        {
+            scoreManager.SetScore(i, Mathf.Ceil(score));
+            i++;
+        }
+        scoreManager.transform.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        StopParty();
     }
 
     public void StopParty()
     {
         gameState = GameState.Menu;
         scoreArray = null;
+        time = 0;
+
+        scoreManager.transform.gameObject.SetActive(false);
+
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(2);
     }
 
     public void SetScore(int _playerID)
@@ -83,7 +101,7 @@ public class GAMEMANAGER : MonoBehaviour
         scoreArray[_playerID] = time;
         playerInGame -= 1;
         if (playerInGame == 0)
-            ScoreSequence();
+            StartCoroutine(ScoreSequence());
     }
 
     public void JoinPlayer(PlayerInput _playerInput)
@@ -93,7 +111,6 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void LeavePlayer(PlayerInput _playerInput)
     {
-        print("Leave");
         MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, false);
     }
 
