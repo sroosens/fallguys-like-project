@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     private GameObject playerModel;
+    private PlayerInput playerInput;
 
 
     private void Awake()
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour
         //camera = GetComponentInChildren<Camera>();
         animator = GetComponentInChildren<Animator>();
         playerModel = animator.gameObject;
+        playerModel.SetActive(false);
+        playerInput = transform.parent.GetComponent<PlayerInput>();
+        playerInput.DeactivateInput();
+
     }
 
     private void Update()
@@ -33,9 +38,35 @@ public class Player : MonoBehaviour
             playerModel.transform.rotation = camera.transform.parent.rotation;
             gameObject.transform.rotation = camera.transform.parent.rotation;
         }
+        
+        
     }
 
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
 
     
+
+    public void EnterGame()
+    {
+        playerModel.SetActive(true);
+        playerInput.ActivateInput();
+        playerInput.SwitchCurrentActionMap("Gameplay");
+    }
+
+    public void Disconect()
+    {
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, false);
+        playerModel.SetActive(false);
+        playerInput.DeactivateInput();
+    }
+
+    public void Reconnected()
+    {
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true);
+        if(GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Game)
+        {
+            playerModel.SetActive(true);
+            playerInput.ActivateInput();
+        }        
+    }
 }
