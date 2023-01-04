@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         playerInput.DeactivateInput();
         color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
-        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color);
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color, playerInput.currentControlScheme);
         SetColorOnCharacter();
     }
 

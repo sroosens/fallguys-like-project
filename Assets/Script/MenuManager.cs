@@ -12,22 +12,21 @@ public class MenuManager : MonoBehaviour
     public GameObject mainPanel;
     public GameObject joinPanel;
 
-    [Header ("PlayerState")]
-    public Image[] playerState;
-    [Header("PlayerControllerIcon")]
-    public Sprite[] controllerIcons;
-	[Header("PlayerModel")]
+    [Header ("Players")]
+    public Image[] playerDevice;
     public GameObject[] playerModels;
+    public GameObject[] playerRemoveBtns;
+    public Sprite[] controllerIcons;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        foreach (Image state in playerState)
+        foreach (Image device in playerDevice)
         {
-            if (state != null)
-                state.enabled = false;
+            if (device != null)
+                device.enabled = false;
         }           
     }
 
@@ -50,31 +49,39 @@ public class MenuManager : MonoBehaviour
     {
         if (_connected)
         {
-            if (playerState[_playerIndex] != null && _deviceName != null)
-            {
-                if(_deviceName.Contains("Keyboard"))
-                    playerState[_playerIndex].sprite = controllerIcons[0];
-                else if (_deviceName.Contains("GamePad"))
-                    playerState[_playerIndex].sprite = controllerIcons[1];
-                else
-                    playerState[_playerIndex].sprite = null;
-
-                playerState[_playerIndex].enabled = true;
-            }
-			
 			if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession)
             {
+                // Model
                 playerModels[_playerIndex].GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_BodyColor", _color);
                 playerModels[_playerIndex].gameObject.SetActive(true);
+
+                // Device Sprite
+                if (_deviceName.Contains("Keyboard"))
+                    playerDevice[_playerIndex].sprite = controllerIcons[0];
+                else if (_deviceName.Contains("GamePad"))
+                    playerDevice[_playerIndex].sprite = controllerIcons[1];
+                else
+                    playerDevice[_playerIndex].sprite = null;
+                playerDevice[_playerIndex].enabled = true;
+
+                // Remove Button
+                playerRemoveBtns[_playerIndex].SetActive(true);
             }     
         }
         else
         {
-            playerState[_playerIndex].enabled = false;
-			
-			if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession)
+            if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession)
+            {
+                // Model
                 playerModels[_playerIndex].gameObject.SetActive(false);
-		}
+
+                // Device Sprite
+                playerDevice[_playerIndex].enabled = false;
+
+                // Remove Button
+                playerRemoveBtns[_playerIndex].SetActive(false);
+            }
+        }
 	}
 
     public void LaunchParty()
@@ -94,7 +101,7 @@ public class MenuManager : MonoBehaviour
                 Player player = playerInputs[i].GetComponentInChildren<Player>();
                 if (player.connected)
                 {
-                    ChangePlayerState(playerInputs[i].playerIndex, false);
+                    ChangePlayerState(playerInputs[i].playerIndex, false, Color.black);
                     Destroy(playerInputs[i].transform.gameObject);
                     break;
                 }
