@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool connected = true;
 
+    public Color color = Color.red;
+
     private void Awake()
     {
         //camera = GetComponentInChildren<Camera>();
@@ -29,7 +31,10 @@ public class Player : MonoBehaviour
         playerModel.SetActive(false);
         playerInput = transform.parent.GetComponent<PlayerInput>();
         playerInput.DeactivateInput();
+        color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color);
+        SetColorOnCharacter();
     }
 
     private void Update()
@@ -59,7 +64,7 @@ public class Player : MonoBehaviour
 
     public void Disconect()
     {
-        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, false);
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, false, color);
         playerModel.SetActive(false);
         playerInput.DeactivateInput();
         connected = false;
@@ -71,7 +76,7 @@ public class Player : MonoBehaviour
 
     public void Reconnected()
     {
-        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true);
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, color);
         connected = true;
         if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Game)
         {
@@ -91,5 +96,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(10f);
         if (!connected)
             Destroy(playerInput.transform.gameObject);
+    }
+
+    private void SetColorOnCharacter()
+    {
+        playerModel.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_BodyColor", color);
     }
 }

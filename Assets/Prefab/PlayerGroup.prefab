@@ -243,6 +243,8 @@ MonoBehaviour:
   cameraSpeed: 20
   camera: {fileID: 4159441665127881051}
   playerInput: {fileID: 0}
+  connected: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!54 &3816066035463330880
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -498,6 +500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SKM_Character
       objectReference: {fileID: 0}
+    - target: {fileID: 2494861316369227164, guid: db04b957028b02b4eb1c4cfd857c12aa,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 129e2670c1d15ef4f9c08e91a15381d2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db04b957028b02b4eb1c4cfd857c12aa, type: 3}
 --- !u!1 &3852873434655590083 stripped

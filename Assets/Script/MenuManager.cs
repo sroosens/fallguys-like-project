@@ -13,7 +13,8 @@ public class MenuManager : MonoBehaviour
 
     [Header ("PlayerState")]
     public Image[] playerState;
-
+    public GameObject[] playerModels;
+    
 
     private void Awake()
     {
@@ -30,9 +31,9 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         mainPanel.SetActive(false);
-        joinPanel.SetActive(true);
-        VerifyDevice();
+        joinPanel.SetActive(true);        
         GAMEMANAGER.Instance.OpenJoinSession();
+        VerifyDevice();
     }
 
     public void Back()
@@ -42,17 +43,20 @@ public class MenuManager : MonoBehaviour
         GAMEMANAGER.Instance.CloseJoinSession();
     }
 
-    public void ChangePlayerState(int _playerIndex, bool _connected)
+    public void ChangePlayerState(int _playerIndex, bool _connected, Color _color)
     {
         if (_connected)
         {
-            if(playerState[_playerIndex] != null)
-                playerState[_playerIndex].color = Color.green;
+            if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession)
+            {
+                playerModels[_playerIndex].GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_BodyColor", _color);
+                playerModels[_playerIndex].gameObject.SetActive(true);
+            }                
         }
         else
         {
-            if (playerState[_playerIndex] != null)
-                playerState[_playerIndex].color = Color.red;
+            if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession)
+                playerModels[_playerIndex].gameObject.SetActive(false);
         }
     }
 
@@ -77,7 +81,7 @@ public class MenuManager : MonoBehaviour
             {               
                 if (playerInput != null && playerInput.playerIndex == i)
                 {
-                    ChangePlayerState(playerInput.playerIndex, true);
+                    ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color);
                     break;
                 }
             }
