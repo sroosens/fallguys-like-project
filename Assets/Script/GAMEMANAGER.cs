@@ -110,7 +110,7 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void JoinPlayer(PlayerInput _playerInput)
     {
-        
+
     }
 
     public void LeavePlayer(PlayerInput _playerInput)
