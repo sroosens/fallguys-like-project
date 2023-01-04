@@ -14,10 +14,12 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     private GameObject playerModel;
+    
 
     [HideInInspector]
     public PlayerInput playerInput;
-
+    [HideInInspector]
+    public bool connected = true;
 
     private void Awake()
     {
@@ -60,12 +62,18 @@ public class Player : MonoBehaviour
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, false);
         playerModel.SetActive(false);
         playerInput.DeactivateInput();
+        connected = false;
+        if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.JoinSession || GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Menu)
+            Destroy(playerInput.transform.gameObject);
+        else
+            StartCoroutine(DisconectedCheck());
     }
 
     public void Reconnected()
     {
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true);
-        if(GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Game)
+        connected = true;
+        if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Game)
         {
             playerModel.SetActive(true);
             playerInput.ActivateInput();
@@ -76,5 +84,12 @@ public class Player : MonoBehaviour
     {
         playerModel.SetActive(false);
         playerInput.DeactivateInput();
+    }
+
+    private IEnumerator DisconectedCheck()
+    {
+        yield return new WaitForSeconds(10f);
+        if (!connected)
+            Destroy(playerInput.transform.gameObject);
     }
 }

@@ -65,12 +65,17 @@ public class MenuManager : MonoBehaviour
     {
         int pCount = GAMEMANAGER.Instance.inputManager.playerCount;
         PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
-
-        for (int i = 0; i < pCount; i++) 
+        foreach (PlayerInput playerInput in playerInputs)
+        {
+            Player player = playerInput.GetComponentInChildren<Player>();
+            if (!player.connected)
+                Destroy(playerInput.transform.gameObject);
+        }
+            for (int i = 0; i < pCount; i++) 
         {
             foreach (PlayerInput playerInput in playerInputs)
-            {
-                if (playerInput.playerIndex == i)
+            {               
+                if (playerInput != null && playerInput.playerIndex == i)
                 {
                     ChangePlayerState(playerInput.playerIndex, true);
                     break;

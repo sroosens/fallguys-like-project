@@ -110,8 +110,11 @@ public class GAMEMANAGER : MonoBehaviour
     }
 
     public void LeavePlayer(PlayerInput _playerInput)
-    {
+    {        
         MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, false);
+        playerInGame -= 1;
+        if (playerInGame == 0)
+            StartCoroutine(ScoreSequence());
     }
 
     public void OpenJoinSession()
