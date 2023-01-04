@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class MenuManager : MonoBehaviour
 
     [Header ("PlayerState")]
     public Image[] playerState;
+    [Header("PlayerControllerIcon")]
+    public Sprite[] controllerIcons;
 
 
     private void Awake()
@@ -22,8 +25,8 @@ public class MenuManager : MonoBehaviour
 
         foreach (Image state in playerState)
         {
-            if(state != null)
-                state.color = Color.red;
+            if (state != null)
+                state.enabled = false;
         }           
     }
 
@@ -42,23 +45,51 @@ public class MenuManager : MonoBehaviour
         GAMEMANAGER.Instance.CloseJoinSession();
     }
 
-    public void ChangePlayerState(int _playerIndex, bool _connected)
+    public void ChangePlayerState(int _playerIndex, bool _connected, string _deviceName = null)
     {
         if (_connected)
         {
-            if(playerState[_playerIndex] != null)
-                playerState[_playerIndex].color = Color.green;
+            if (playerState[_playerIndex] != null && _deviceName != null)
+            {
+                if(_deviceName.Contains("Keyboard"))
+                    playerState[_playerIndex].sprite = controllerIcons[0];
+                else if (_deviceName.Contains("GamePad"))
+                    playerState[_playerIndex].sprite = controllerIcons[1];
+                else
+                    playerState[_playerIndex].sprite = null;
+
+                playerState[_playerIndex].enabled = true;
+            }
         }
         else
         {
-            if (playerState[_playerIndex] != null)
-                playerState[_playerIndex].color = Color.red;
+            playerState[_playerIndex].enabled = false;
         }
     }
 
     public void LaunchParty()
     {
         GAMEMANAGER.Instance.StartParty();
+    }
+
+    public void RemovePlayer(int _player)
+    {
+        PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+
+        for(int i = 0; i < playerInputs.Length; i++)
+        {
+            print(playerInputs[i].playerIndex);
+            if (playerInputs[i].playerIndex == _player)
+            {
+                Player player = playerInputs[i].GetComponentInChildren<Player>();
+                if (player.connected)
+                {
+                    ChangePlayerState(playerInputs[i].playerIndex, false);
+                    Destroy(playerInputs[i].transform.gameObject);
+                    break;
+                }
+            }
+        }
     }
 
     private void VerifyDevice()
@@ -77,7 +108,7 @@ public class MenuManager : MonoBehaviour
             {               
                 if (playerInput != null && playerInput.playerIndex == i)
                 {
-                    ChangePlayerState(playerInput.playerIndex, true);
+                    ChangePlayerState(playerInput.playerIndex, true, playerInput.currentControlScheme);
                     break;
                 }
             }

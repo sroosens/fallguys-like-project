@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
 
     public void Reconnected()
     {
-        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true);
+        MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.currentControlScheme);
         connected = true;
         if (GAMEMANAGER.Instance.gameState == GAMEMANAGER.GameState.Game)
         {

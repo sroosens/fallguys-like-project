@@ -106,7 +106,7 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void JoinPlayer(PlayerInput _playerInput)
     {
-        MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, true);
+        MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, true, _playerInput.currentControlScheme);
     }
 
     public void LeavePlayer(PlayerInput _playerInput)
