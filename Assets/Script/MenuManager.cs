@@ -95,7 +95,6 @@ public class MenuManager : MonoBehaviour
 
         for(int i = 0; i < playerInputs.Length; i++)
         {
-            print(playerInputs[i].playerIndex);
             if (playerInputs[i].playerIndex == _player)
             {
                 Player player = playerInputs[i].GetComponentInChildren<Player>();

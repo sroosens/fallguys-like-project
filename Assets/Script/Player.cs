@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class Player : MonoBehaviour
 {
-    public float speed = 5;
-    public float cameraSpeed = 5;
+    public float speed = 5f;
+    public float cameraSpeed = 5f;
+    public float jumpHeight = 2f;
+    public float groundDistance = 0.2f;
+    public LayerMask ground;
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
@@ -25,6 +30,12 @@ public class Player : MonoBehaviour
 
     public Color color = Color.red;
 
+    private Rigidbody body;
+    private Vector3 inputs = Vector3.zero;
+    private bool isGrounded = true;
+    private bool isJumping = false;
+    private Transform groundChecker;
+
     private void Awake()
     {
         //camera = GetComponentInChildren<Camera>();
@@ -35,27 +46,54 @@ public class Player : MonoBehaviour
         playerInput.DeactivateInput();
         color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
+        body = GetComponentInChildren<Rigidbody>();
+        groundChecker = GetComponentInChildren<Transform>();
+
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color, playerInput.currentControlScheme);
         SetColorOnCharacter();
     }
 
     private void Update()
     {
-        transform.Translate(new Vector3(movementInput.x, 0, movementInput.y) * speed * Time.deltaTime);
-        //camera.transform.parent.Rotate(new Vector3(0, cameraInput.x, 0) * cameraSpeed * Time.deltaTime);
+        /*        transform.Translate(new Vector3(movementInput.x, 0, movementInput.y) * speed * Time.deltaTime);
+                //camera.transform.parent.Rotate(new Vector3(0, cameraInput.x, 0) * cameraSpeed * Time.deltaTime);
 
-        if(movementInput != new Vector2(0,0))
+                if (movementInput != new Vector2(0, 0))
+                {
+                    playerModel.transform.rotation = camera.transform.parent.rotation;
+                    gameObject.transform.rotation = camera.transform.parent.rotation;
+                }
+
+        */
+        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
+
+        inputs = Vector3.zero;
+        inputs.x = movementInput.x;
+        inputs.z = movementInput.y;
+        if (inputs != Vector3.zero)
         {
-            playerModel.transform.rotation = camera.transform.parent.rotation;
-            gameObject.transform.rotation = camera.transform.parent.rotation;
+            transform.forward = inputs;
         }
-        
-        
+
+        if (isJumping && isGrounded)
+        {
+            body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            isJumping = false;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        body.MovePosition(body.position + inputs * speed * Time.fixedDeltaTime);
     }
 
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
 
-    
+    public void OnJump(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+            isJumping = true;
+    }
 
     public void EnterGame()
     {
