@@ -75,13 +75,10 @@ public class GAMEMANAGER : MonoBehaviour
         inputManager.splitScreen = false;
 
         gameState = GameState.Score;
-        int i = 0;
-        foreach (float score in scoreArray)
-        {
-            scoreManager.SetScore(i, Mathf.Ceil(score));
-            i++;
-        }
+
         scoreManager.transform.gameObject.SetActive(true);
+        scoreManager.SetScore(scoreArray);
+        scoreManager.DisplayScore(true);       
 
         yield return new WaitForSeconds(5f);
 
@@ -94,6 +91,7 @@ public class GAMEMANAGER : MonoBehaviour
         scoreArray = null;
         time = 0;
 
+        scoreManager.DisplayScore(false);
         scoreManager.transform.gameObject.SetActive(false);
 
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
