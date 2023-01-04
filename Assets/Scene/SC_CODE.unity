@@ -1205,7 +1205,7 @@ PrefabInstance:
     - target: {fileID: 4976612581647649559, guid: a770823436548044c8dca98594f8dc2b,
         type: 3}
       propertyPath: m_SplitScreen
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4976612581647649559, guid: a770823436548044c8dca98594f8dc2b,
         type: 3}

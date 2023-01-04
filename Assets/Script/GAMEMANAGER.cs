@@ -59,6 +59,8 @@ public class GAMEMANAGER : MonoBehaviour
         }
         SceneManager.UnloadSceneAsync(1);
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
+        inputManager.splitScreen = true;
     }
 
     private void Update()
@@ -70,6 +72,8 @@ public class GAMEMANAGER : MonoBehaviour
 
     public IEnumerator ScoreSequence()
     {
+        inputManager.splitScreen = false;
+
         gameState = GameState.Score;
         int i = 0;
         foreach (float score in scoreArray)
@@ -111,7 +115,7 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void LeavePlayer(PlayerInput _playerInput)
     {        
-        MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, false);
+        MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, false, Color.black);
         playerInGame -= 1;
         if (playerInGame == 0)
             StartCoroutine(ScoreSequence());
