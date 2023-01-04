@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     public PlayerInput playerInput;
     [HideInInspector]
     public bool connected = true;
+    [HideInInspector]
+    public Checkpoint lastChekpoint;
 
     public Color color = Color.red;
 
@@ -101,5 +103,11 @@ public class Player : MonoBehaviour
     private void SetColorOnCharacter()
     {
         playerModel.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_BodyColor", color);
+    }
+
+    public void Death()
+    {
+        transform.position = lastChekpoint.transform.position;
+        transform.rotation = lastChekpoint.transform.rotation;
     }
 }
