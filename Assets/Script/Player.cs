@@ -1,6 +1,9 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -49,6 +52,8 @@ public class Player : MonoBehaviour
         body = GetComponentInChildren<Rigidbody>();
         groundChecker = GetComponentInChildren<Transform>();
 
+
+
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color, playerInput.currentControlScheme);
         SetColorOnCharacter();
     }
@@ -75,6 +80,8 @@ public class Player : MonoBehaviour
             transform.forward = inputs;
         }
 
+        animator.SetBool("Jumping", !isGrounded);
+
         if (isJumping && isGrounded)
         {
             body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
@@ -84,7 +91,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        body.MovePosition(body.position + inputs * speed * Time.fixedDeltaTime);
+        //body.MovePosition(body.position + inputs * speed * Time.fixedDeltaTime);
+        body.AddForce(new Vector3(movementInput.x, 0, movementInput.y).normalized * speed * Time.fixedDeltaTime);
+        animator.SetFloat("Speed", body.velocity.magnitude);
     }
 
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
