@@ -37,7 +37,9 @@ public class Player : MonoBehaviour
     private Rigidbody body;
     private Vector3 inputs = Vector3.zero;
     private bool isGrounded = true;
+    private bool preIsGrounded = false;
     private bool isJumping = false;
+    private bool toggleJump = false;
     private Transform groundChecker;
 
     private void Awake()
@@ -71,43 +73,60 @@ public class Player : MonoBehaviour
                 }
 
         */
-        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
+        // Get movement input
         inputs = Vector3.zero;
         inputs.x = movementInput.x;
         inputs.z = movementInput.y;
+
+        // Appky force to body if requested
         if (inputs != Vector3.zero)
         {
             transform.forward = inputs;
 
-            // Raycast vers le bas pour détecter les pentes
+            // Check platform slope with raycast
             RaycastHit hit;
             if (Physics.Raycast(transform.position, -Vector3.up, out hit))
             {
-                // Si le raycast a touché une pente
+                // If raycast meets a slope
                 if ((hit.normal.y < 0.78f) && isGrounded)
                 {
-                    // Appliquer une force dans la direction de la pente
+                    // Apply force to slope direction
                     body.AddForce(hit.normal * climbForce * speed * Time.fixedDeltaTime);
                 }
             }
         }
 
-        animator.SetBool("Jumping", !isGrounded);
+        // Check if body is on the ground
+        preIsGrounded = isGrounded;
+        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
-        if (isJumping && isGrounded)
+        // Add force to body if jump is requested and body is on the ground
+        if (toggleJump && isGrounded)
         {
-            body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-            isJumping = false;
+            if(toggleJump)
+            {
+                body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                toggleJump = false;
+                isJumping = true;
+            }
         }
- 
+
+        // Body is no more jumping if previous position was in the air and changed to ground
+        if (!preIsGrounded && isGrounded)
+            isJumping = false;
+
+        // Update Jumping state for animation
+        animator.SetBool("Jumping", isJumping);
     }
 
     private void FixedUpdate()
     {
-        //body.MovePosition(body.position + inputs * speed * Time.fixedDeltaTime);
+        // Add force to body in accordance with movement input and character speed
         body.AddForce(new Vector3(movementInput.x, 0, movementInput.y).normalized * speed * Time.fixedDeltaTime);
-        animator.SetFloat("Speed", body.velocity.magnitude);
+
+        // Update Speed value for animation
+        animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
     }
 
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
@@ -115,7 +134,9 @@ public class Player : MonoBehaviour
     public void OnJump(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
-            isJumping = true;
+        {
+            toggleJump = true;
+        }
     }
 
     public void EnterGame()
