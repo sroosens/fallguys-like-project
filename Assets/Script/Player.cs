@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public float cameraSpeed = 5f;
     public float jumpHeight = 2f;
     public float groundDistance = 0.2f;
+    public float climbForce = 0.05f;
     public LayerMask ground;
 
     private Vector2 movementInput;
@@ -78,6 +79,18 @@ public class Player : MonoBehaviour
         if (inputs != Vector3.zero)
         {
             transform.forward = inputs;
+
+            // Raycast vers le bas pour détecter les pentes
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+            {
+                // Si le raycast a touché une pente
+                if ((hit.normal.y < 0.78f) && isGrounded)
+                {
+                    // Appliquer une force dans la direction de la pente
+                    body.AddForce(hit.normal * climbForce * speed * Time.fixedDeltaTime);
+                }
+            }
         }
 
         animator.SetBool("Jumping", !isGrounded);
@@ -87,6 +100,7 @@ public class Player : MonoBehaviour
             body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
             isJumping = false;
         }
+ 
     }
 
     private void FixedUpdate()

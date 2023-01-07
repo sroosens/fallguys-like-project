@@ -255,6 +255,7 @@ MonoBehaviour:
   cameraSpeed: 20
   jumpHeight: 3
   groundDistance: 0.2
+  climbForce: 0.05
   ground:
     serializedVersion: 2
     m_Bits: 512
