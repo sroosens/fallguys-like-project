@@ -91,8 +91,10 @@ public class Player : MonoBehaviour
                 // If raycast meets a slope
                 if ((hit.normal.y < 0.78f) && isGrounded)
                 {
-                    // Apply force to slope direction
-                    body.AddForce(hit.normal * climbForce * speed * Time.fixedDeltaTime);
+                    if (hit.distance < 0.16f) // Apply force to slope direction
+                        body.AddForce(hit.normal * climbForce * speed * Time.fixedDeltaTime);
+                    else // Apply downforce when body is in a negative slope
+                        body.AddForce(-Vector3.up * 0.1f * speed * Time.fixedDeltaTime);
                 }
             }
         }
@@ -104,12 +106,9 @@ public class Player : MonoBehaviour
         // Add force to body if jump is requested and body is on the ground
         if (toggleJump && isGrounded)
         {
-            if(toggleJump)
-            {
-                body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                toggleJump = false;
-                isJumping = true;
-            }
+           body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+           toggleJump = false;
+           isJumping = true;
         }
 
         // Body is no more jumping if previous position was in the air and changed to ground
