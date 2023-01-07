@@ -254,7 +254,7 @@ MonoBehaviour:
   speed: 20
   cameraSpeed: 20
   jumpHeight: 3
-  groundDistance: 0.1
+  groundDistance: 0.2
   ground:
     serializedVersion: 2
     m_Bits: 512
