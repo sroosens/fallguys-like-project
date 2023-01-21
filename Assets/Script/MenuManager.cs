@@ -112,6 +112,7 @@ public class MenuManager : MonoBehaviour
     {
         int pCount = GAMEMANAGER.Instance.inputManager.playerCount;
         PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+
         foreach (PlayerInput playerInput in playerInputs)
         {
             Player player = playerInput.GetComponentInChildren<Player>();
