@@ -37,9 +37,10 @@ public class Player : MonoBehaviour
     private Rigidbody body;
     private Vector3 inputs = Vector3.zero;
     private bool isGrounded = true;
-    private bool preIsGrounded = false;
+    private bool wasGrounded = false;
     private bool isJumping = false;
-    private bool toggleJump = false;
+    private int maxJumps = 2;
+    private int curJump;
     private Transform groundChecker;
 
     private void Awake()
@@ -55,7 +56,7 @@ public class Player : MonoBehaviour
         body = GetComponentInChildren<Rigidbody>();
         groundChecker = GetComponentInChildren<Transform>();
 
-
+        curJump = maxJumps;
 
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color, playerInput.currentControlScheme);
         SetColorOnCharacter();
@@ -79,7 +80,7 @@ public class Player : MonoBehaviour
         inputs.x = movementInput.x;
         inputs.z = movementInput.y;
 
-        // Appky force to body if requested
+        // Apply force to body if requested
         if (inputs != Vector3.zero)
         {
             transform.forward = inputs;
@@ -100,20 +101,15 @@ public class Player : MonoBehaviour
         }
 
         // Check if body is on the ground
-        preIsGrounded = isGrounded;
+        wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
-        // Add force to body if jump is requested and body is on the ground
-        if (toggleJump && isGrounded)
-        {
-           body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-           toggleJump = false;
-           isJumping = true;
-        }
-
         // Body is no more jumping if previous position was in the air and changed to ground
-        if (!preIsGrounded && isGrounded)
+        if (!wasGrounded && isGrounded)
+        {
             isJumping = false;
+            curJump = maxJumps;
+        }
 
         // Update Jumping state for animation
         animator.SetBool("Jumping", isJumping);
@@ -134,7 +130,23 @@ public class Player : MonoBehaviour
     {
         if (ctx.started)
         {
-            toggleJump = true;
+           // Add force to body if jump is requested and body is on the ground
+            if (curJump > 0)
+            {
+                isJumping = true;
+                curJump--;
+
+                if (curJump == 1) // Simple jump
+                {
+                    body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                    animator.SetBool("Jumping", true);
+                }
+                else if (curJump == 0) // Double jump
+                {
+                    body.AddForce(new Vector3(0, 1, 1) * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                    animator.SetTrigger("DoubleJump");
+                }
+            }
         }
     }
 

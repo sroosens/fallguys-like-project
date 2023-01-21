@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   cameraSpeed: 20
-  jumpHeight: 3
+  jumpHeight: 2
   groundDistance: 0.2
   climbForce: 0.08
   ground:
