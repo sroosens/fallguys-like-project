@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapRotator_v2 : MonoBehaviour
+public class TrapMover_v2 : MonoBehaviour
 {
     Rigidbody _rigidbody = null;
 
-    [SerializeField] bool _rotateEnabled = true;
-    [SerializeField] float _rotationSpeed = 20.0f;
+    [SerializeField] bool _moveEnabled = true;
+    [SerializeField] float _speed = 1.0f;
+    [SerializeField] float _distance = 3.0f;
+    [SerializeField] bool _axisHorizontal = true;
+    [SerializeField] bool _axisVertical = true;
+
+    Vector3 _startPosition = Vector3.zero;
+    Vector3 _endPosition = Vector3.zero;
+
+    Vector3 _platformPositionLastFrame = Vector3.zero;
+    float _timeScale = 0.0f;
 
     Dictionary<Rigidbody, float> RBsOnPlatformAndTime = new Dictionary<Rigidbody, float>();
     [SerializeField] List<Rigidbody> RBsOnPlatform = new List<Rigidbody>();
@@ -15,16 +24,14 @@ public class TrapRotator_v2 : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent < Rigidbody>();
+
+        _startPosition = _rigidbody.position;
+        _endPosition = new Vector3(_startPosition.x + (_axisHorizontal ? _distance : 0), _startPosition.y + (_axisVertical ? _distance : 0), _startPosition.z);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(_rotateEnabled)
-        {
-            _rigidbody.rotation = Quaternion.Euler(_rigidbody.rotation.eulerAngles.x, _rigidbody.rotation.eulerAngles.y + _rotationSpeed * Time.fixedDeltaTime, _rigidbody.rotation.eulerAngles.z);
-        }
-
         if(RBsOnPlatform.Count != RBsOnPlatformAndTime.Count)
         {
             RBsOnPlatformAndTime.Clear();
@@ -32,6 +39,13 @@ public class TrapRotator_v2 : MonoBehaviour
             {
                 RBsOnPlatformAndTime.Add(rb, 1.0f);
             }
+        }
+
+        if(_moveEnabled)
+        {
+            _platformPositionLastFrame = _rigidbody.position;
+            _timeScale = _speed / Vector3.Distance(_startPosition, _endPosition);
+            _rigidbody.position = Vector3.Lerp(_endPosition, _startPosition, Mathf.Abs(Time.time * _timeScale % 2 - 1));
         }
         
         foreach (Rigidbody rb in RBsOnPlatform)
@@ -46,21 +60,15 @@ public class TrapRotator_v2 : MonoBehaviour
             {
                 RBsOnPlatformAndTime[rb] = 1.0f;
             }
-            RotateRBOnPlatform(rb, timer);
+            MoveRBOnPlatform(rb, timer);
         }
     }
 
-    private void RotateRBOnPlatform(Rigidbody rb, float timer)
+    private void MoveRBOnPlatform(Rigidbody rb, float timer)
     {
-        if(_rotateEnabled)
+        if(_moveEnabled)
         {
-            float rotationAmount = _rotationSpeed * timer * Time.deltaTime;
-
-            Quaternion localAngleAxis = Quaternion.AngleAxis(rotationAmount, _rigidbody.transform.up);
-            rb.position = (localAngleAxis * (rb.position - _rigidbody.position)) + _rigidbody.position;
-
-            Quaternion globalAngleAxis = Quaternion.AngleAxis(rotationAmount, rb.transform.InverseTransformDirection(_rigidbody.transform.up));
-            rb.rotation *= globalAngleAxis;
+            rb.position += (_rigidbody.position - _platformPositionLastFrame) * timer;
         }
     }
 
