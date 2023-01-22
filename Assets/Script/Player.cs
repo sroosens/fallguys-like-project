@@ -246,5 +246,9 @@ public class Player : MonoBehaviour
     {
         transform.position = lastChekpoint.transform.position;
         transform.rotation = lastChekpoint.transform.rotation;
+
+        isJumping = false;
+        curJump = maxJumps;
+        Physics.gravity = new Vector3(0, -9.78f, 0);
     }
 }
