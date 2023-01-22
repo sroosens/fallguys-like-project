@@ -67,15 +67,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-/*        if (movementInput != new Vector2(0, 0))
-        {
-            playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, camera.transform.parent.rotation, Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, camera.transform.parent.rotation, Time.deltaTime);
-        }
-*/
+        // Manage Player rotation to movement input direction
         if (inputs != Vector3.zero)
         {
-            transform.forward = Vector3.Lerp(transform.forward, camera.transform.forward, Time.deltaTime * 30);
+            // Find target rotation IAW velocity
+            Quaternion targetRotation = Quaternion.LookRotation(body.velocity, transform.up);
+            // Retrieve only Y axis value
+            targetRotation.eulerAngles = new Vector3(0, targetRotation.eulerAngles.y, 0);
+            // Rotate Player Model to target rotation
+            playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, targetRotation, 10.0f * Time.deltaTime);
         }
     }
 
