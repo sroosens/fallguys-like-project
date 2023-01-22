@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public float jumpHeight = 2f;
     public float groundDistance = 0.2f;
     public float climbForce = 0.05f;
+    public float fallMultiplier = 2.0f;
     public LayerMask ground;
 
     private Vector2 movementInput;
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
     private int maxJumps = 2;
     private int curJump;
     private Transform groundChecker;
+    private bool toggleJump = false;
 
     private void Awake()
     {
@@ -74,13 +76,43 @@ public class Player : MonoBehaviour
                 }
 
         */
+    }
 
+    private void FixedUpdate()
+    {
+        // Check if body is on the ground
+        wasGrounded = isGrounded;
+        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
+
+        ManageGravity();
+
+        ManageJump();
+
+        Move();
+    }
+
+    private void Move()
+    {
+        if(!isJumping)
+            body.velocity = Vector3.ClampMagnitude(body.velocity, 4f);
+        else
+            body.velocity = Vector3.ClampMagnitude(body.velocity, 10f);
+
+        // Add force to body in accordance with movement input and character speed
+        body.AddForce(new Vector3(movementInput.x, 0, movementInput.y).normalized * speed * 100 * Time.fixedDeltaTime);
+
+        // Update Speed value for animation
+        animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
+    }
+
+    private void ManageGravity()
+    {
         // Get movement input
         inputs = Vector3.zero;
         inputs.x = movementInput.x;
         inputs.z = movementInput.y;
 
-        // Apply force to body if requested
+        // Apply force to body if needed
         if (inputs != Vector3.zero)
         {
             transform.forward = inputs;
@@ -99,10 +131,44 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            // Slow down body when no input and is grounded
+            if (isGrounded)
+                body.velocity = body.velocity * 0.99f;
+        }
 
-        // Check if body is on the ground
-        wasGrounded = isGrounded;
-        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
+        // Add fall multiplier to gravity
+        if (isGrounded)
+            Physics.gravity = new Vector3(0, -9.78f, 0);
+        else
+            Physics.gravity = new Vector3(0, -9.78f, 0) * fallMultiplier;
+    }
+
+    private void ManageJump()
+    {
+        if (toggleJump)
+        {
+            // Add force to body if jump is requested and body is on the ground
+            if (curJump > 0)
+            {
+
+                if (curJump == 2 && isGrounded) // Simple jump
+                {
+                    body.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+                    animator.SetBool("Jumping", true);
+                }
+                else if (curJump == 1) // Double jump
+                {
+                    body.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+                    animator.SetTrigger("DoubleJump");
+                }
+
+                isJumping = true;
+                curJump--;
+            }
+            toggleJump = false;
+        }
 
         // Body is no more jumping if previous position was in the air and changed to ground
         if (!wasGrounded && isGrounded)
@@ -115,38 +181,12 @@ public class Player : MonoBehaviour
         animator.SetBool("Jumping", isJumping);
     }
 
-    private void FixedUpdate()
-    {
-        // Add force to body in accordance with movement input and character speed
-        body.AddForce(new Vector3(movementInput.x, 0, movementInput.y).normalized * speed * Time.fixedDeltaTime);
-
-        // Update Speed value for animation
-        animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
-    }
-
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
-
     public void OnJump(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
         {
-           // Add force to body if jump is requested and body is on the ground
-            if (curJump > 0)
-            {
-                isJumping = true;
-                curJump--;
-
-                if (curJump == 1) // Simple jump
-                {
-                    body.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                    animator.SetBool("Jumping", true);
-                }
-                else if (curJump == 0) // Double jump
-                {
-                    body.AddForce(new Vector3(0, 1, 1) * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                    animator.SetTrigger("DoubleJump");
-                }
-            }
+            toggleJump = true;
         }
     }
 
