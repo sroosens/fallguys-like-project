@@ -62,6 +62,8 @@ public class GAMEMANAGER : MonoBehaviour
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
         inputManager.splitScreen = true;
+
+        inputManager.DisableJoining();
     }
 
     private void Update()
