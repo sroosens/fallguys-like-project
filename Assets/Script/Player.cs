@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -66,16 +67,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        /*        transform.Translate(new Vector3(movementInput.x, 0, movementInput.y) * speed * Time.deltaTime);
-                //camera.transform.parent.Rotate(new Vector3(0, cameraInput.x, 0) * cameraSpeed * Time.deltaTime);
-
-                if (movementInput != new Vector2(0, 0))
-                {
-                    playerModel.transform.rotation = camera.transform.parent.rotation;
-                    gameObject.transform.rotation = camera.transform.parent.rotation;
-                }
-
-        */
+/*        if (movementInput != new Vector2(0, 0))
+        {
+            playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, camera.transform.parent.rotation, Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, camera.transform.parent.rotation, Time.deltaTime);
+        }
+*/
+        if (inputs != Vector3.zero)
+        {
+            transform.forward = Vector3.Lerp(transform.forward, camera.transform.forward, Time.deltaTime * 30);
+        }
     }
 
     private void FixedUpdate()
@@ -98,8 +99,14 @@ public class Player : MonoBehaviour
         else
             body.velocity = Vector3.ClampMagnitude(body.velocity, 10f);
 
+        // Get horizontal and vertical inputs and assign to vector3 "move"
+        Vector3 move = new Vector3(movementInput.x, 0f, movementInput.y);
+
+        // Assign camera transform forward to the ball forward
+        move = camera.transform.TransformDirection(move);
+
         // Add force to body in accordance with movement input and character speed
-        body.AddForce(new Vector3(movementInput.x, 0, movementInput.y).normalized * speed * 100 * Time.fixedDeltaTime);
+        body.AddForce(move * speed * 100 * Time.fixedDeltaTime);
 
         // Update Speed value for animation
         animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
@@ -112,11 +119,8 @@ public class Player : MonoBehaviour
         inputs.x = movementInput.x;
         inputs.z = movementInput.y;
 
-        // Apply force to body if needed
         if (inputs != Vector3.zero)
         {
-            transform.forward = inputs;
-
             // Check platform slope with raycast
             RaycastHit hit;
             if (Physics.Raycast(transform.position, -Vector3.up, out hit))
