@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -115,7 +116,7 @@ public class GAMEMANAGER : MonoBehaviour
     {        
         MenuManager.Instance.ChangePlayerState(_playerInput.playerIndex, false, Color.black);
         playerInGame -= 1;
-        if (playerInGame == 0)
+        if (playerInGame == 0 && Instance != null)
             StartCoroutine(ScoreSequence());
     }
 

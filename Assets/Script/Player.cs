@@ -48,7 +48,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //camera = GetComponentInChildren<Camera>();
         animator = GetComponentInChildren<Animator>();
         playerModel = animator.gameObject;
         playerModel.SetActive(false);
