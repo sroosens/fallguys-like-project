@@ -260,7 +260,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 512
-  camera: {fileID: 4159441665127881051}
+  mainCamera: {fileID: 4159441665127881051}
   playerInput: {fileID: 0}
   connected: 1
   lastChekpoint: {fileID: 0}

@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     private int curJump;
     private Transform groundChecker;
     private bool toggleJump = false;
+    private bool isCollided = false;
 
     private void Awake()
     {
@@ -106,11 +107,18 @@ public class Player : MonoBehaviour
         move = mainCamera.transform.TransformDirection(move);
 
         // Add force to body in accordance with movement input and character speed
-        body.AddForce(move * speed * 100 * Time.fixedDeltaTime);
+        // Avoid to be stuck against an object when falling
+        if ( !(!isGrounded && isCollided) )
+        {
+            body.AddForce(move * speed * 100 * Time.fixedDeltaTime);
+        }
 
         // Update Speed value for animation
         animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
     }
+
+    void OnCollisionEnter(Collision collision) => isCollided = true;
+    void OnCollisionExit(Collision collision) => isCollided = false;
 
     private void ManageGravity()
     {

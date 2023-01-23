@@ -107,7 +107,10 @@ public class MenuManager : MonoBehaviour
 
     public void LaunchParty()
     {
-        GAMEMANAGER.Instance.StartParty();
+        if (GAMEMANAGER.Instance.playerNumber > 0)
+            GAMEMANAGER.Instance.StartParty();
+        else
+            print("Error cannot Start Party (PlayerNumber=" + GAMEMANAGER.Instance.playerNumber + ")");
     }
 
     public void RemovePlayer(int _player)
