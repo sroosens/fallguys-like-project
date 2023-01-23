@@ -33,7 +33,8 @@ public class MenuManager : MonoBehaviour
         {
             if (device != null)
                 device.enabled = false;
-        }           
+        }
+        EventSystem.current.SetSelectedGameObject(playButton);
     }
 
     public void Play()

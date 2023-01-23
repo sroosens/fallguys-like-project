@@ -140,5 +140,15 @@ public class GAMEMANAGER : MonoBehaviour
         inputManager.onPlayerLeft -= LeavePlayer;
     }
 
-    
+    public void ChangePause(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started && gameState == GameState.Game)
+        {
+            gameState = GameState.Pause;
+        }
+        else if (ctx.canceled && gameState == GameState.Pause)
+        {
+            gameState = GameState.Game;
+        }
+    }
 }

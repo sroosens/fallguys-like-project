@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "2f36ad2c-995a-4d41-9323-6331361501fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -172,6 +181,28 @@
                     "processors": "",
                     "groups": "Keyboard/Mouse",
                     "action": "CameraMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0fe5b216-c739-461c-9416-4c0f1e3718e3",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "666e37f7-203e-41e9-b468-da9b911177dc",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
