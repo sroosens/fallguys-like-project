@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
-    public Camera camera;
+    public Camera mainCamera;
     private Animator animator;
 
     private GameObject playerModel;
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(movementInput.x, 0f, movementInput.y);
 
         // Assign camera transform forward to the ball forward
-        move = camera.transform.TransformDirection(move);
+        move = mainCamera.transform.TransformDirection(move);
 
         // Add force to body in accordance with movement input and character speed
         body.AddForce(move * speed * 100 * Time.fixedDeltaTime);

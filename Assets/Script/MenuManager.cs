@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class MenuManager : MonoBehaviour
 
     public GameObject mainPanel;
     public GameObject joinPanel;
+    public GameObject controlsPanel;
+
+    public GameObject playButton;
+    public GameObject backButtonControls;
+    public GameObject playButtonLobby;
 
     [Header ("Players")]
     public Image[] playerDevice;
@@ -35,14 +41,28 @@ public class MenuManager : MonoBehaviour
         mainPanel.SetActive(false);
         joinPanel.SetActive(true);        
         GAMEMANAGER.Instance.OpenJoinSession();
+        EventSystem.current.SetSelectedGameObject(playButtonLobby);
         VerifyDevice();
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void Controls()
+    {
+        mainPanel.SetActive(false);      
+        controlsPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(backButtonControls);
+    }
     public void Back()
     {
         mainPanel.SetActive(true);
+        controlsPanel.SetActive(false);
         joinPanel.SetActive(false);
         GAMEMANAGER.Instance.CloseJoinSession();
+        EventSystem.current.SetSelectedGameObject(playButton);
     }
 
     public void ChangePlayerState(int _playerIndex, bool _connected, Color _color, string _deviceName = null)
