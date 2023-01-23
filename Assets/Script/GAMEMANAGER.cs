@@ -22,9 +22,6 @@ public class GAMEMANAGER : MonoBehaviour
     private float[] scoreArray;
     private float time;
 
-
-
-
     public enum GameState
     {
         Menu,
