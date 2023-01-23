@@ -192,7 +192,7 @@ public class Player : MonoBehaviour
         // Update Jumping state for animation
         animator.SetBool("Jumping", isJumping);
     }
-
+    public void OnPause(InputAction.CallbackContext ctx) => GAMEMANAGER.Instance.ChangePause(ctx);
     public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
     public void OnJump(InputAction.CallbackContext ctx)
     {
