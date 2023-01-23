@@ -90,6 +90,13 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void StopParty()
     {
+        inputManager.splitScreen = false;
+        PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+        foreach (PlayerInput playerInput in playerInputs)
+        {
+            playerInput.GetComponentInChildren<Player>().playerModel.SetActive(false);
+        }
+
         gameState = GameState.Menu;
         scoreArray = null;
         time = 0;
@@ -142,11 +149,11 @@ public class GAMEMANAGER : MonoBehaviour
 
     public void ChangePause(InputAction.CallbackContext ctx)
     {
-        if (ctx.started && gameState == GameState.Game)
+        if (ctx.performed && gameState == GameState.Game)
         {
             gameState = GameState.Pause;
         }
-        else if (ctx.canceled && gameState == GameState.Pause)
+        else if (ctx.performed && gameState == GameState.Pause)
         {
             gameState = GameState.Game;
         }

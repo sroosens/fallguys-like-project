@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pausePanel;
+    public GameObject continueButton;
 
     bool isSetPause = false;
 
@@ -40,6 +42,7 @@ public class PauseMenuManager : MonoBehaviour
             isSetPause = true;
             Time.timeScale = 0;
             pausePanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(continueButton);
         }
         else
         {
@@ -47,5 +50,17 @@ public class PauseMenuManager : MonoBehaviour
             Time.timeScale = 1;
             pausePanel.SetActive(false);
         }
+    }
+
+    public void GoToMenu()
+    {
+        SetPauseMenu(false);
+        GAMEMANAGER.Instance.StopParty();
+    }
+
+    public void Continue()
+    {
+        SetPauseMenu(false);
+        GAMEMANAGER.Instance.gameState = GAMEMANAGER.GameState.Game;
     }
 }

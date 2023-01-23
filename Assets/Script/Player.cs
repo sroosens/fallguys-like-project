@@ -24,9 +24,8 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
     private Animator animator;
 
-    private GameObject playerModel;
-    
-
+    [HideInInspector]
+    public GameObject playerModel;
     [HideInInspector]
     public PlayerInput playerInput;
     [HideInInspector]
