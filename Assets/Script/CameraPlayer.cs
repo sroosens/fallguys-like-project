@@ -42,7 +42,7 @@ public class CameraPlayer : MonoBehaviour
         Vector2 cameraInput = ctx.ReadValue<Vector2>();
 
         desiredRotation *= Quaternion.Euler(0f, cameraInput.x * cameraSpeedHorizontal, 0f);
-        currentOffset = Mathf.Clamp(currentOffset + (cameraInput.y * cameraSpeedVertical), -maxVerticalOffset, maxVerticalOffset);
+        currentOffset = Mathf.Clamp(currentOffset + (-cameraInput.y * cameraSpeedVertical), -maxVerticalOffset, maxVerticalOffset);
         
     }
 
