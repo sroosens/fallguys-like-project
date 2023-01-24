@@ -32,6 +32,9 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: 350227956206cba4ba349fb16247523a, type: 3}
     volume: 0.2
     pitch: 1.5
+  - audioClip: {fileID: 8300000, guid: 350227956206cba4ba349fb16247523a, type: 3}
+    volume: 0.2
+    pitch: 1.5
   spatialBlend: 0
   loop: 0
   playOnAwake: 0
