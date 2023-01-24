@@ -36,7 +36,7 @@
                     "name": "CameraMove",
                     "type": "Value",
                     "id": "1ce8d066-83ba-4b86-b3fa-f484691b50d6",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
