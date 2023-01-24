@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     private Transform groundChecker;
     private bool toggleJump = false;
     private bool isCollided = false;
+    private SoundManager mSoundManager;
 
     private void Awake()
     {
@@ -62,6 +63,11 @@ public class Player : MonoBehaviour
 
         MenuManager.Instance.ChangePlayerState(playerInput.playerIndex, true, playerInput.GetComponentInChildren<Player>().color, playerInput.currentControlScheme);
         SetColorOnCharacter();
+    }
+
+    private void Start()
+    {
+        mSoundManager = SoundManager.sInstance;
     }
 
     private void Update()
@@ -116,7 +122,11 @@ public class Player : MonoBehaviour
         animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
     }
 
-    void OnCollisionEnter(Collision collision) => isCollided = true;
+    void OnCollisionEnter(Collision collision)
+    {
+        isCollided = true;
+        mSoundManager.PlaySound("Collision");
+    }
     void OnCollisionExit(Collision collision) => isCollided = false;
 
     private void ManageGravity()
@@ -168,11 +178,13 @@ public class Player : MonoBehaviour
                 {
                     body.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
                     animator.SetBool("Jumping", true);
+                    mSoundManager.PlaySound("Jump");
                 }
                 else if (curJump == 1) // Double jump
                 {
                     body.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
                     animator.SetTrigger("DoubleJump");
+                    mSoundManager.PlaySound("DoubleJump");
                 }
 
                 isJumping = true;
@@ -251,6 +263,8 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
+        mSoundManager.PlaySound("PlayerDeath");
+
         transform.position = lastChekpoint.transform.position;
         transform.rotation = lastChekpoint.transform.rotation;
 
