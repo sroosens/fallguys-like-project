@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ed7f85f4d419cc34f93738f63be398e6
+guid: ae60bc87f66a8bc4584452916ca025a9
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Tex
-    second: {fileID: 2100000, guid: a5143a93f07f52e41925c28a561c595a, type: 2}
+    second: {fileID: 2100000, guid: 3bdf7d00bf83d5a46803b6bba77575d8, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
