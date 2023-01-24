@@ -158,9 +158,8 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-
     public void PlayButtonSound()
     {
-        buttonSelect.Play();
+        SoundManager.sInstance.PlaySound("UI_Move");
     }
 }
