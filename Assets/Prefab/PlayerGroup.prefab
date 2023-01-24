@@ -248,7 +248,7 @@ MonoBehaviour:
   fallMultiplier: 2
   ground:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   deathParticule: {fileID: 3097802966894786211, guid: 6f0be87d1e627fc4588f6f48871f39d5,
     type: 3}
   mainCamera: {fileID: 4159441665127881051}
