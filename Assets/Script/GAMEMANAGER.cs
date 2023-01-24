@@ -97,6 +97,7 @@ public class GAMEMANAGER : MonoBehaviour
         foreach (PlayerInput playerInput in playerInputs)
         {
             playerInput.GetComponentInChildren<Player>().playerModel.SetActive(false);
+            playerInput.GetComponentInChildren<Player>().rb.useGravity = false;
         }
 
         gameState = GameState.Menu;

@@ -18,6 +18,8 @@ public class MenuManager : MonoBehaviour
     public GameObject backButtonControls;
     public GameObject playButtonLobby;
 
+    public AudioSource buttonSelect;
+
     [Header ("Players")]
     public Image[] playerDevice;
     public GameObject[] playerModels;
@@ -154,5 +156,11 @@ public class MenuManager : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public void PlayButtonSound()
+    {
+        buttonSelect.Play();
     }
 }

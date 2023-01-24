@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public bool connected = true;
     [HideInInspector]
     public Checkpoint lastChekpoint;
+    [HideInInspector]
+    public Rigidbody rb;
 
     public Color color = Color.red;
 
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour
     private Transform groundChecker;
     private bool toggleJump = false;
     private bool isCollided = false;
-    private SoundManager mSoundManager;
+    private SoundManager mSoundManager;   
 
     private void Awake()
     {
@@ -56,6 +58,8 @@ public class Player : MonoBehaviour
         playerInput.DeactivateInput();
         color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
         body = GetComponentInChildren<Rigidbody>();
         groundChecker = GetComponentInChildren<Transform>();
 
@@ -216,6 +220,7 @@ public class Player : MonoBehaviour
     public void EnterGame()
     {
         playerModel.SetActive(true);
+        rb.useGravity = true;
         playerInput.ActivateInput();
         playerInput.SwitchCurrentActionMap("Gameplay");
     }
@@ -246,6 +251,7 @@ public class Player : MonoBehaviour
     public void Finish()
     {
         playerModel.SetActive(false);
+        rb.useGravity = false;
         playerInput.DeactivateInput();
     }
 
