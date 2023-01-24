@@ -276,10 +276,14 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 512
+  deathParticule: {fileID: 3097802966894786211, guid: 6f0be87d1e627fc4588f6f48871f39d5,
+    type: 3}
   mainCamera: {fileID: 4159441665127881051}
+  playerModel: {fileID: 0}
   playerInput: {fileID: 0}
   connected: 1
   lastChekpoint: {fileID: 0}
+  rb: {fileID: 0}
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!54 &3816066035463330880
 Rigidbody:
