@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public float climbForce = 0.05f;
     public float fallMultiplier = 2.0f;
     public LayerMask ground;
+    public GameObject deathParticule;
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
@@ -267,9 +268,20 @@ public class Player : MonoBehaviour
         playerModel.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_BodyColor", color);
     }
 
-    public void Death()
+    public IEnumerator Death()
     {
+        Instantiate(deathParticule, transform.position, Quaternion.identity);
         mSoundManager.PlaySound("PlayerDeath");
+
+        rb.isKinematic = true;
+        playerInput.DeactivateInput();
+        playerModel.SetActive(false);
+
+        yield return new WaitForSeconds(1.5f);
+
+        rb.isKinematic = false;
+        playerInput.ActivateInput();
+        playerModel.SetActive(true);
 
         transform.position = lastChekpoint.transform.position;
         transform.rotation = lastChekpoint.transform.rotation;

@@ -19,6 +19,7 @@ public class StarterManager : MonoBehaviour
         {
             playerInput.DeactivateInput();
         }
+        SoundManager.sInstance.PlaySound("StartCountdown");
     }
 
     public void EndSequence()

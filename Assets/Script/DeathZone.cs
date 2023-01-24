@@ -8,7 +8,7 @@ public class DeathZone : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().Death();
+            StartCoroutine(other.GetComponent<Player>().Death());
         }
     }
 }

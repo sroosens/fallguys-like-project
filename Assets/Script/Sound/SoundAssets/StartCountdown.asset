@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: StartCountdown
   sounds:
-  - audioClip: {fileID: 8300000, guid: d348789174909cc4595d6217247ecd48, type: 3}
+  - audioClip: {fileID: 8300000, guid: 650634fcfab4152499cc7f0d541501f7, type: 3}
     volume: 1
     pitch: 1
   spatialBlend: 0
