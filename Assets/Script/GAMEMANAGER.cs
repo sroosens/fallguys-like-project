@@ -16,6 +16,7 @@ public class GAMEMANAGER : MonoBehaviour
 
     public PlayerInputManager inputManager;
     public ScoreManager scoreManager;
+    public StarterManager starterManager;
     public bool LoadAtMenu = true;
 
     private int playerInGame = 0;
@@ -64,6 +65,7 @@ public class GAMEMANAGER : MonoBehaviour
         inputManager.splitScreen = true;
 
         inputManager.DisableJoining();
+        starterManager.StartSequence();
     }
 
     private void Update()
