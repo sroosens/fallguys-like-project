@@ -14,11 +14,11 @@ public class TrapRotator : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.SetParent(transform);
+        other.transform.parent.SetParent(transform);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        other.transform.SetParent(null);
+        other.transform.parent.SetParent(null);
     }
 }
