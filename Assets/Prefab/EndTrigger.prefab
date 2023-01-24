@@ -58,3 +58,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d0990feaa13a94697b21195d2a368d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firework: {fileID: 7184802674185778140, guid: fb6cef959627af5488249dea1e040ae4,
+    type: 3}

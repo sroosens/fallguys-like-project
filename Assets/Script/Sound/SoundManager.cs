@@ -14,8 +14,6 @@ public class SoundManager : MonoBehaviour
     
     public Dictionary<string, SoundAsset> mSoundsDict = new Dictionary<string, SoundAsset>();
 
-    public bool bol;
-
     private void Awake()
     {
         if (sInstance == null)
@@ -29,15 +27,6 @@ public class SoundManager : MonoBehaviour
         }
 
         InitialiseSounds();
-    }
-
-    private void Update()
-    {
-        if (bol)
-        {
-            PlaySound("K");
-            bol = false;
-        }
     }
 
     private void InitialiseSounds()
