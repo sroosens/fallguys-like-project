@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: PlayerDeath
   sounds:
-  - audioClip: {fileID: 8300000, guid: 02a8d8ce2c8fbde4eb108379fdf07aa5, type: 3}
+  - audioClip: {fileID: 8300000, guid: a018cfad131de814d8846f204c5f73b5, type: 3}
+    volume: 1
+    pitch: 0.7
+  - audioClip: {fileID: 8300000, guid: a018cfad131de814d8846f204c5f73b5, type: 3}
+    volume: 1
+    pitch: 1.5
+  - audioClip: {fileID: 8300000, guid: a018cfad131de814d8846f204c5f73b5, type: 3}
     volume: 1
     pitch: 1
-  - audioClip: {fileID: 8300000, guid: a9b3186e6e2e1404dbf67c968e717f9c, type: 3}
-    volume: 1
-    pitch: 3
   spatialBlend: 0
   loop: 0
   playOnAwake: 0

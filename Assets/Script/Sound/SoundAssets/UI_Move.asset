@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: UI_Move
   sounds:
-  - audioClip: {fileID: 8300000, guid: 20fdab4998679094c86ac6f039f8fa87, type: 3}
+  - audioClip: {fileID: 8300000, guid: 572494cb8e17d5847bed3f94f86b370d, type: 3}
     volume: 1
     pitch: 1
   spatialBlend: 0
