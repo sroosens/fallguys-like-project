@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
             // Rotate Player Model to target rotation
             if (targetRotation != Quaternion.identity)
                 playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, targetRotation, 10.0f * Time.deltaTime);
+
         }
     }
 
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
         wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
-        ManageGravity();
+        //ManageGravity();
 
         ManageJump();
 
@@ -115,16 +116,19 @@ public class Player : MonoBehaviour
 
         // Assign camera transform forward to the ball forward
         move = mainCamera.transform.TransformDirection(move);
+        move.y = 0f;
 
         // Add force to body in accordance with movement input and character speed
         // Avoid to be stuck against an object when falling
         if ( !(!isGrounded && isCollided) )
         {
-            body.AddForce(move * speed * 100 * Time.fixedDeltaTime);
+            body.AddForce(move * speed, ForceMode.Force);
         }
 
         // Update Speed value for animation
-        animator.SetFloat("Speed", Vector3.Project(body.velocity, body.transform.forward).magnitude);
+        animator.SetFloat("Speed", Mathf.Clamp01(body.velocity.magnitude));
+        animator.SetFloat("Orient", (Vector3.Dot(playerModel.transform.TransformDirection(Vector3.right).normalized, move.normalized)));
+
     }
 
     void OnCollisionEnter(Collision collision)
