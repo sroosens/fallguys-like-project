@@ -12,7 +12,6 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public float speed = 5f;
-    public float cameraSpeed = 5f;
     public float jumpHeight = 2f;
     public float groundDistance = 0.2f;
     public float climbForce = 0.05f;
@@ -78,15 +77,18 @@ public class Player : MonoBehaviour
     private void Update()
     {
         // Manage Player rotation to movement input direction
-        if ( (inputs != Vector3.zero) && (body.velocity != Vector3.zero) )
+        if(movementInput != Vector2.zero && body.velocity != Vector3.zero)
         {
+            Debug.Log("rotate");
             // Find target rotation IAW velocity
-            Quaternion targetRotation = Quaternion.LookRotation(body.velocity, transform.up);
+            Vector3 dir = body.velocity;
+            dir.y = 0f;
+            Quaternion targetRotation = Quaternion.LookRotation(dir, transform.up);
             // Retrieve only Y axis value
-            targetRotation.eulerAngles = new Vector3(0, targetRotation.eulerAngles.y, 0);
+            //targetRotation.eulerAngles = new Vector3(0, targetRotation.eulerAngles.y, 0);
             // Rotate Player Model to target rotation
-            if (targetRotation != Quaternion.identity)
-                playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, targetRotation, 10.0f * Time.deltaTime);
+            
+            playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, targetRotation, 10.0f * Time.deltaTime);
 
         }
     }
@@ -97,7 +99,17 @@ public class Player : MonoBehaviour
         wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
-        //ManageGravity();
+
+        //Vector3 dir = Vector3.forward * movementInput.y + Vector3.right * movementInput.x;
+        //
+        //animator.SetFloat("Speed", Mathf.Clamp01(dir.magnitude));
+        //
+        //
+        //
+        //Vector3 force = dir * speed;
+        //body.MovePosition(body.position + force * Time.fixedDeltaTime);
+        
+        ManageGravity();
 
         ManageJump();
 
