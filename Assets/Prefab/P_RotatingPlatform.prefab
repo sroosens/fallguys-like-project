@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4066246906296432496}
   - component: {fileID: 4066246906296432497}
   m_Layer: 9
-  m_Name: SM_RotatingPlatform
+  m_Name: P_RotatingPlatform
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
