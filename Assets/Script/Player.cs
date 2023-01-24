@@ -100,6 +100,8 @@ public class Player : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, ground, QueryTriggerInteraction.Ignore);
 
 
+
+
         //Vector3 dir = Vector3.forward * movementInput.y + Vector3.right * movementInput.x;
         //
         //animator.SetFloat("Speed", Mathf.Clamp01(dir.magnitude));
@@ -177,14 +179,18 @@ public class Player : MonoBehaviour
         {
             // Slow down body when no input and is grounded
             if (isGrounded)
+            {
+
                 body.velocity = body.velocity * 0.99f;
+            }
         }
 
+
         // Add fall multiplier to gravity
-        if (isGrounded)
-            Physics.gravity = new Vector3(0, -9.78f, 0);
-        else
-            Physics.gravity = new Vector3(0, -9.78f, 0) * fallMultiplier;
+        //if (isGrounded)
+        //    Physics.gravity = new Vector3(0, -9.78f, 0);
+        //else
+        //    Physics.gravity = new Vector3(0, -9.78f, 0) * fallMultiplier;
     }
 
     private void ManageJump()

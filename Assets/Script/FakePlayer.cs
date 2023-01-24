@@ -26,7 +26,7 @@ public class FakePlayer : MonoBehaviour
         {
             destination = GetRandomPointInBounds(triggerZone.bounds);
         }
-        transform.LookAt(destination);
+        transform.rotation = (Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(destination, Vector3.up), 60f * Time.deltaTime));
         transform.Translate(Vector3.forward * speed * Time.deltaTime);        
     }
 
