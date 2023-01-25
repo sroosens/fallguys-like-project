@@ -242,10 +242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12.5
-  jumpHeight: 20
+  jumpHeight: 7
   groundDistance: 0.2
   climbForce: 100
-  fallMultiplier: 2
+  fallMultiplier: 1
   ground:
     serializedVersion: 2
     m_Bits: 513

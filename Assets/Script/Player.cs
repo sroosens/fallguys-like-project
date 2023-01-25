@@ -79,7 +79,6 @@ public class Player : MonoBehaviour
         // Manage Player rotation to movement input direction
         if(movementInput != Vector2.zero && body.velocity != Vector3.zero)
         {
-            Debug.Log("rotate");
             // Find target rotation IAW velocity
             Vector3 dir = body.velocity;
             dir.y = 0f;
@@ -91,6 +90,7 @@ public class Player : MonoBehaviour
             playerModel.transform.rotation = Quaternion.Lerp(playerModel.transform.rotation, targetRotation, 10.0f * Time.deltaTime);
 
         }
+
     }
 
     private void FixedUpdate()
@@ -185,6 +185,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (!isGrounded)
+            body.AddForce(Vector3.down * 9.81f * fallMultiplier);
 
         // Add fall multiplier to gravity
         //if (isGrounded)
