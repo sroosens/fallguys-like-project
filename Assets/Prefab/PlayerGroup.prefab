@@ -241,11 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6c2e4c7fe4e544f9a393617d0b6c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12.5
-  jumpHeight: 7
+  speed: 15
+  jumpHeight: 5
   groundDistance: 0.2
   climbForce: 100
-  fallMultiplier: 1
+  fallMultiplier: 1.2
   ground:
     serializedVersion: 2
     m_Bits: 513

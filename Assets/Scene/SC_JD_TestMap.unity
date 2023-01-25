@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: -10, z: 0}
+  rotationRate: {x: 0, y: -80, z: 0}
   activated: 1
 --- !u!136 &199302850
 CapsuleCollider:
@@ -958,7 +958,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2
@@ -4271,7 +4271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: 15, z: 0}
+  rotationRate: {x: 0, y: 60, z: 0}
   activated: 1
 --- !u!136 &900331598
 CapsuleCollider:
@@ -4299,7 +4299,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -4904,20 +4904,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 664868075}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1034505334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034505332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: 0, z: -20}
-  activated: 1
 --- !u!54 &1034505337
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4932,8 +4918,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 62
   m_CollisionDetection: 2
+--- !u!114 &1034505338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034505332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d958127f467bae04d882dc64cfdbe0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationRate: {x: 0, y: 0, z: 10}
+  activated: 1
 --- !u!4 &1059711585 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 31fc2f96ebca0a944b8efbccde2a0968,
@@ -5840,20 +5840,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 451402221}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1354568586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354568584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: 0, z: 20}
-  activated: 1
 --- !u!54 &1354568589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5870,6 +5856,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2
+--- !u!114 &1354568590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354568584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d958127f467bae04d882dc64cfdbe0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationRate: {x: 0, y: 0, z: 10}
+  activated: 1
 --- !u!1 &1376509257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b9b1d93ebeb8d14f83c6d3094f2b9a9,
@@ -6444,7 +6444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: -15, z: 0}
+  rotationRate: {x: 0, y: -80, z: 0}
   activated: 1
 --- !u!136 &1449402417
 CapsuleCollider:
@@ -6472,7 +6472,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2
@@ -6924,7 +6924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: -20, z: 0}
+  rotationRate: {x: 0, y: -60, z: 0}
   activated: 1
 --- !u!136 &1549459614
 CapsuleCollider:
@@ -6952,7 +6952,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2
@@ -8024,7 +8024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: -10, z: 0}
+  rotationRate: {x: 0, y: -80, z: 0}
   activated: 1
 --- !u!136 &1721828397
 CapsuleCollider:
@@ -8052,7 +8052,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2
@@ -8153,7 +8153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8306769046a899a489726d232e07839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRate: {x: 0, y: 10, z: 0}
+  rotationRate: {x: 0, y: 80, z: 0}
   activated: 1
 --- !u!136 &1751372376
 CapsuleCollider:
@@ -8181,7 +8181,7 @@ Rigidbody:
   m_Drag: 3
   m_AngularDrag: 3
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 2

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class TrapRotator : MonoBehaviour
+public class TrapRotatorPhysic : MonoBehaviour
 {
     Rigidbody rb;
     public Vector3 rotationRate = new Vector3(0, 0, 0);
@@ -17,7 +17,7 @@ public class TrapRotator : MonoBehaviour
     void FixedUpdate()
     {
         if (activated)
-            rb.MoveRotation(rb.rotation * Quaternion.Euler(rotationRate * Time.deltaTime)); //rotates 50 degrees per second around z axis
+            rb.AddTorque(rotationRate * Time.fixedDeltaTime, ForceMode.VelocityChange); //rotates 50 degrees per second around z axis
         
 
     }

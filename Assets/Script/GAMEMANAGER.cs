@@ -80,10 +80,12 @@ public class GAMEMANAGER : MonoBehaviour
         inputManager.splitScreen = false;
 
         gameState = GameState.Score;
-
-        scoreManager.transform.gameObject.SetActive(true);
-        scoreManager.SetScore(scoreArray);
-        scoreManager.DisplayScore(true);       
+        if(scoreManager != null)
+        {
+            scoreManager.transform.gameObject.SetActive(true);
+            scoreManager.SetScore(scoreArray);
+            scoreManager.DisplayScore(true);       
+        }
 
         yield return new WaitForSeconds(5f);
 
